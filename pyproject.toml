@@ -1,6 +1,6 @@
 [project]
-name = "project_or_module_name"
-description = "A_short_description"
+name = "scraper-agent"
+description = "An asynchronous agent to scrape data from a website and convert it into metrics"
 
 # If a project, then you can specify version here
 # version = "0.0.0"
