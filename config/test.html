@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'/>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+        <title>P0 Heater Control</title>
+    </head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    <body>
+        <h1>Top Plate Temperature</h1>
+        <p>
+            Thermocouple 1 is reading: <span id='top_TC1'>5.0</span>
+            &#x2103<br/>
+        </p>
+        <p>
+            Thermocouple 2 is reading: <span id='top_TC2'>5.0</span>
+            &#x2103<br/>
+        </p>
+        <p>
+            Thermocouple 3 is reading: <span id='top_TC3'>5.0.0</span>
+            &#x2103<br/>
+        </p>
+        <p>
+            IR Sensor reference temperature is: <span id='IR_ref'>5.0</span>
+            &#x2103<br/>
+        </p>
+        <p>IR Sensor array temperatures: 
+        <table>
+            <tr>
+                <td>
+                    <span id='IR_0_0'>5.0</span>
+                    &#x2103
+                </td>
+                <td>
+                    <span id='IR_0_1'>5.0</span>
+                    &#x2103
+                </td>
+                <td>
+                    <span id='IR_0_2'>5.0</span>
+                    &#x2103
+                </td>
+                <td>
+                    <span id='IR_0_3'>5.0</span>
+                    &#x2103
+                </td>
+                <td>
+                    <span id='IR_0_4'>5.0</span>
+                    &#x2103
+                </td>
+                <td>
+                    <span id='IR_0_5'>5.0</span>
+                    &#x2103
+                </td>
+                <td>
+                    <span id='IR_0_6'>5.0</span>
+                    &#x2103
+                </td>
+                <td>
+                    <span id='IR_0_7'>5.0</span>
+                    &#x2103
+                </td>
+            </tr>
+        </table>
+</p>
+<p>
+    Current temperature setpoint: <span id='top_setpoint'>5.0</span>
+    &#x2103<br/>
+</p>
+<form method='GET'>
+    <label for='TempSetpoint'>Enter a temperature setpoint: </label>
+    <input type='text' name='TempSetpointTop' id='TempSetpointTop' placeholder='Enter a value from 0-150&#x2103'>
+    <input type='submit' value='Submit'>
+</form>
+<p>
+    Current PI Value is: <span id='top_PID'>5.0</span>
+</p>
+CVM211 Error. Service required.
+<p>
+    Battery Level: <span id='top_batterylevel'>0.00%</span>
+</p>
+<p style='background-color:red;'>
+    <span id='top_batwarning'>Battery running low, please replace battery ASAP</span>
+</p>
+<p>
+    Last updated: <span id='top_timestamp'>2024-01-23 16:15:02</span>
+</p>
+<h1>Bottom Plate Temperature</h1>
+<p>
+    Thermocouple 1 is reading: <span id='bot_TC1'>5.0</span>
+    &#x2103<br/>
+</p>
+<p>
+    Thermocouple 2 is reading: <span id='bot_TC2'>5.0</span>
+    &#x2103<br/>
+</p>
+<p>
+    Thermocouple 3 is reading: <span id='bot_TC3'>5.0</span>
+    &#x2103<br/>
+</p>
+<p>
+    Current temperature setpoint: <span id='bot_setpoint'>5.0</span>
+    &#x2103<br/>
+</p>
+<form method='GET'>
+    <label for='TempSetpoint'>Enter a temperature setpoint: </label>
+    <input type='text' name='TempSetpointBot' id='TempSetpointBot' placeholder='Enter a value from 0-150&#x2103'>
+    <input type='submit' value='Submit'>
+</form>
+<p>
+    Current PI Value is: <span id='bot_PID'>5.0</span>
+</p>
+<p>
+    Battery Level: <span id='bot_batterylevel'>0.00%</span>
+</p>
+<p style='background-color:red;'>
+    <span id='bot_batwarning'>Battery running low, please replace battery ASAP</span>
+</p>
+<p>
+    Last updated: <span id='bot_timestamp'>2024-01-23 16:15:03</span>
+</p>
+<h1>Data logging</h1>
+<p>
+    <span id='SD_card_status'>SD Card inserted</span>
+</p>
+<p style='background-color:red;'>
+    <span id='logging_status'>Not logging data onto SD Card</span>
+</p>
+<form method='GET'>
+    <input type='submit' id='LogData' name='Start Logging Data' value='Start'>
+    <input type='submit' id='LogData' name='Start Logging Data' value='Stop' disabled>
+</form>
+<a href='/Download'>View Files on SD Card </a>

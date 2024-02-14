@@ -7,10 +7,14 @@
 # ---------------------------------------------------------------------------
 """a_short_project_description"""
 # ---------------------------------------------------------------------------
-
+from html_scraper_agent import HTMLScraperAgent
+import asyncio
 
 def main():
-    pass
+    buffer = []
+    scraper = HTMLScraperAgent(buffer)
+    asyncio.run(scraper.do_work(server_address = "./config/test.html"))
+    print(scraper._buffer)
 
 
 if __name__ == "__main__":

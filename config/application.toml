@@ -1,5 +1,20 @@
+[statistics]
+enabled = "False"
+update_interval = 1
+
+[agent]
+buffer_length = 10
+
+[server]
+buffer_length = 10
+
+[database_client]
+batch_size = 10
+
+[post_processing]
+batch_size = 10
 
 [webscraper]
-host = "10.0.0.0"
+host = "./config/test.html"
 port = 80
 update_interval = 1
