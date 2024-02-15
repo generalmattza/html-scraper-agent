@@ -5,7 +5,7 @@ description = "An asynchronous agent to scrape data from an html source and conv
 # If a project, then you can specify version here
 version = "0.0.0"
 # If a module, then fetch version dynamically (see [tool.setuptools.dynamic] below)
-#dynamic = ["version"]
+# dynamic = ["version"]
 
 readme = "README.md"
 requires-python = ">=3.10"
