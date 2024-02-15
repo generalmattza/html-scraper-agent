@@ -11,7 +11,7 @@
 import asyncio
 from typing import Union
 from collections import deque
-# buffered.buffer import Buffer
+buffered.buffer import Buffer
 from bs4 import BeautifulSoup
 import requests
 import re
