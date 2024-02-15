@@ -144,11 +144,12 @@ class HTMLScraperAgent:
         except Exception:
             # GetRequestUnsuccessful:  # CHECK EXCEPTION TYPE WHEN NOT CONNECTED
             # If unsuccessful, then restart loop and try again
-            # logger.warning('Fetch unsuccessful')
+            logger.warning('Fetch unsuccessful')
+            return
             
             # Reading html text file instead
-            with open(HTML_FILEPATH) as file:
-                html = file.read()
+            # with open(HTML_FILEPATH) as file:
+            #    html = file.read()
         # Parse the HTML content using BeautifulSoup
         soup = BeautifulSoup(html, "html.parser")
         
@@ -232,7 +233,7 @@ class HTMLScraperAgent:
         server_address = server_address or self.server_address
 
         # Get data in form of dict to load to the buffer
-        metrics = self.scrape_to_metric(server_address)
+        metrics = self.scrape_to_metric(server_address=server_address)
 
         # Add to input buffer
         try:
