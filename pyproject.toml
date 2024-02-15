@@ -22,7 +22,7 @@ classifiers = [
 ]
 
 dependencies = [
-  #"buffered @ git+https://github.com/davidson-engineering/buffered.git@v1.0.0",
+  "buffered @ git+https://github.com/davidson-engineering/buffered.git",
   "fast-database-clients @ git+https://github.com/generalmattza/fast-database-clients.git@v2.0.3",
   "beautifulsoup4",
   "requests",
