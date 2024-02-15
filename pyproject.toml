@@ -3,7 +3,7 @@ name = "html-scraper-agent"
 description = "An asynchronous agent to scrape data from an html source and convert it into metrics"
 
 # If a project, then you can specify version here
-version = "0.0.0"
+version = "0.0.1"
 # If a module, then fetch version dynamically (see [tool.setuptools.dynamic] below)
 # dynamic = ["version"]
 
