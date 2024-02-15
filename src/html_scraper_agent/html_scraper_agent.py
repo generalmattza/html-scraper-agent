@@ -183,7 +183,10 @@ class HTMLScraperAgent:
 
     def scrape_to_metric(self, server_address) -> list:
 
-        scraped_data, scraped_timestamps = self.scrape_data(server_address)
+        try:
+            scraped_data, scraped_timestamps = self.scrape_data(server_address)
+        except TypeError:
+            return
         metric_list = []
         target_ids = load_config(MEASUREMENT_FILEPATH)
 
@@ -242,8 +245,9 @@ class HTMLScraperAgent:
         metrics = self.scrape_to_metric(server_address=server_address)
 
         # Add to input buffer
-        try:
-            #   # If Buffer type, use put method to ensure dequeue is used from correct side
-            self._buffer.put(metrics)
-        except AttributeError:
-            self._buffer.append(metrics)
+        if metrics:
+            try:
+                #   # If Buffer type, use put method to ensure dequeue is used from correct side
+                self._buffer.put(metrics)
+            except AttributeError:
+                self._buffer.append(metrics)
