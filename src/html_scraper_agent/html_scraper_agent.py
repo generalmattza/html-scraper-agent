@@ -18,11 +18,15 @@ import re
 from fast_database_clients.fast_influxdb_client.influx_metric import InfluxMetric
 from pathlib import Path
 from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 SCRAPER_FILEPATH = "./config/webscraper.yaml"
 MEASUREMENT_FILEPATH = "./config/measurements.yaml"
 HTML_FILEPATH = "./config/test.html"
 MEASUREMENT = "liner_heater"
+
 
 class GetRequestUnsuccessful(Exception):
     pass
@@ -81,7 +85,7 @@ class HTMLScraperAgent:
                 self._id_list.append(id)
 
     def fetch_html_content(self, url):
-       
+
         # Construct the URL with the given IP address and optional path
         try:
             # Make a GET request to the URL
@@ -101,7 +105,7 @@ class HTMLScraperAgent:
             raise GetRequestUnsuccessful
 
     def remove_null_values_from_dict(self, result_dict, null=("nan", "", None)):
-        
+
         assert isinstance(result_dict, dict)
         assert isinstance(null, (str, tuple, list))
         # if null is singular, then make it into a tuple
@@ -114,7 +118,7 @@ class HTMLScraperAgent:
         return result_dict_copy
 
     def extract_elements_by_ids(self, html, id_list):
-        
+
         result_dict = {}
 
         if isinstance(html, str):
@@ -133,34 +137,34 @@ class HTMLScraperAgent:
                 result_dict[element_id] = element.text
 
         result_dict = self.remove_null_values_from_dict(result_dict)
-    
+
         return result_dict
 
     def scrape_data(self, server_address) -> dict:
-        
+
         try:
             # Fetch HTML content from the specified address and path
             html = self.fetch_html_content(server_address)
         except Exception:
             # GetRequestUnsuccessful:  # CHECK EXCEPTION TYPE WHEN NOT CONNECTED
             # If unsuccessful, then restart loop and try again
-            logger.warning('Fetch unsuccessful')
+            logger.warning("Fetch unsuccessful")
             return
-            
+
             # Reading html text file instead
             # with open(HTML_FILEPATH) as file:
             #    html = file.read()
         # Parse the HTML content using BeautifulSoup
         soup = BeautifulSoup(html, "html.parser")
-        
+
         # Scrape data from the parsed HTML
         data = self.extract_elements_by_ids(soup, self._id_list)
         timestamps = self.extract_elements_by_ids(soup, self._timestamp_list)
 
         return data, timestamps
-    
+
     def convert_to_float(self, string):
-        
+
         # Use regular expression to remove non-numeric characters
         numeric_string = re.sub(r"[^0-9.]+", "", string)
         result_float = float(numeric_string)
@@ -169,9 +173,9 @@ class HTMLScraperAgent:
 
     def convert_values(self, value, value_type):
 
-        if value_type == 'float':
+        if value_type == "float":
             return self.convert_to_float(value)
-        elif value_type == 'string':
+        elif value_type == "string":
             return str(value)
         else:
             # Handle other categories as needed
@@ -186,7 +190,7 @@ class HTMLScraperAgent:
         for key, value in scraped_data.items():
             # Scraped id exists within target_id to upload to DB
             if key in target_ids.keys():
-                
+
                 # Check the time from target_id to grab the correct time
                 for timestamp_id, id_list in self._timestamp_template.items():
                     if key in id_list:
@@ -196,14 +200,16 @@ class HTMLScraperAgent:
                         if timestamp_id == "no_timestamp":
                             t = datetime.now()
                         else:
-                            t = datetime.strptime(scraped_timestamps[timestamp_id], date_fmt)
+                            t = datetime.strptime(
+                                scraped_timestamps[timestamp_id], date_fmt
+                            )
 
                 # Grab any tags associated with the target_id
                 try:
                     tag_dict = target_ids[key]["tags"]
                 except KeyError:
                     tag_dict = None
-                
+
                 # Convert the field value to specified type within target_ids list
                 data_type = target_ids[key]["data_type"]
                 try:
@@ -214,10 +220,10 @@ class HTMLScraperAgent:
                     # Create a metric and append it to the list to be added to the buffer
                     metric = InfluxMetric(
                         measurement=MEASUREMENT,
-                        fields={key:corrected_value},
+                        fields={key: corrected_value},
                         time=t,
                         tags=tag_dict,
-                        write_precision="ns"
+                        write_precision="ns",
                     )
                     metric_list.append(metric)
 
@@ -226,7 +232,7 @@ class HTMLScraperAgent:
     async def do_work_periodically(self, update_interval=None, server_address=None):
         update_interval = update_interval or self.update_interval
         while True:
-            await self.do_work(server_address)
+            await self.do_work(server_address=server_address)
             await asyncio.sleep(update_interval)
 
     async def do_work(self, message="", server_address=None):
@@ -237,7 +243,7 @@ class HTMLScraperAgent:
 
         # Add to input buffer
         try:
-        #   # If Buffer type, use put method to ensure dequeue is used from correct side
+            #   # If Buffer type, use put method to ensure dequeue is used from correct side
             self._buffer.put(metrics)
         except AttributeError:
             self._buffer.append(metrics)
