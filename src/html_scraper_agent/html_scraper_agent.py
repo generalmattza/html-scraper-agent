@@ -203,9 +203,12 @@ class HTMLScraperAgent:
                         if timestamp_id == "no_timestamp":
                             t = datetime.now()
                         else:
-                            t = datetime.strptime(
-                                scraped_timestamps[timestamp_id], date_fmt
-                            )
+                            try:
+                                t = datetime.strptime(
+                                    scraped_timestamps[timestamp_id], date_fmt
+                                )
+                            except KeyError:
+                                 t = datetime.now()
 
                 # Grab any tags associated with the target_id
                 try:
