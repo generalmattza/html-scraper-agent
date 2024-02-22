@@ -3,7 +3,7 @@ name = "html-scraper-agent"
 description = "An asynchronous agent to scrape data from an html source and convert it into metrics"
 
 # If a project, then you can specify version here
-version = "0.0.2"
+version = "0.0.3"
 # If a module, then fetch version dynamically (see [tool.setuptools.dynamic] below)
 # dynamic = ["version"]
 
@@ -23,7 +23,7 @@ classifiers = [
 
 dependencies = [
   "buffered @ git+https://github.com/davidson-engineering/buffered.git@v1.0.1",
-  "fast-database-clients @ git+https://github.com/davidson-engineering/fast-database-clients.git@v2.0.3",
+  "fast-database-clients @ git+https://github.com/davidson-engineering/fast-database-clients.git@v2.0.5",
   "beautifulsoup4",
   "requests",
 ]
