@@ -182,14 +182,14 @@ class HTMLScraperAgent:
             return value
 
     def scrape_to_metric(self, server_address) -> list:
-
+        logger.info(f"Scraping from {server_address}")
         try:
             scraped_data, scraped_timestamps = self.scrape_data(server_address)
         except TypeError:
             return
         metric_list = []
         target_ids = load_config(MEASUREMENT_FILEPATH)
-
+        logger.debug(f"Scraped {len(scraped_data)} items from {server_address}")
         for key, value in scraped_data.items():
             # Scraped id exists within target_id to upload to DB
             if key in target_ids.keys():
@@ -232,7 +232,7 @@ class HTMLScraperAgent:
                         write_precision="ns",
                     )
                     metric_list.append(metric)
-
+                    
         return metric_list
 
     async def do_work_periodically(self, update_interval=None, server_address=None):
@@ -246,7 +246,8 @@ class HTMLScraperAgent:
 
         # Get data in form of dict to load to the buffer
         metrics = self.scrape_to_metric(server_address=server_address)
-
+        
         # Add to input buffer
         if metrics:
+            logger.info(f"Adding {len(metrics)} metrics to queue, scraped from {server_address}")
             self._buffer.append(metrics)
