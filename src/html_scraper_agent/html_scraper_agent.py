@@ -249,8 +249,4 @@ class HTMLScraperAgent:
 
         # Add to input buffer
         if metrics:
-            try:
-                #   # If Buffer type, use put method to ensure dequeue is used from correct side
-                self._buffer.put(metrics)
-            except AttributeError:
-                self._buffer.append(metrics)
+            self._buffer.append(metrics)
