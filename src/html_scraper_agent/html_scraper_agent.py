@@ -221,7 +221,7 @@ class HTMLScraperAgent:
                 try:
                     corrected_value = self.convert_values(value, data_type)
                 except ValueError as error:
-                    print(f"WARNING: {key} not added to buffer. CAUSE: {error}")
+                    logger.warning(f"{key} not added to buffer. CAUSE: {error}")
                 else:
                     # Create a metric and append it to the list to be added to the buffer
                     metric = InfluxMetric(
