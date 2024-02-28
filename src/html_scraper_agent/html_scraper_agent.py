@@ -91,7 +91,7 @@ class HTMLScraperAgent:
             # Make a GET request to the URL
             response = requests.get(url)
         except requests.exceptions.ConnectionError as e:
-            # logger.warning("HTML GET request was unsuccessful", extra=dict(details=e))
+            logger.warning("HTML GET request was unsuccessful", extra=dict(details=e))
             # raise GetRequestUnsuccessful
             pass
 
@@ -101,7 +101,7 @@ class HTMLScraperAgent:
             return response.text
         else:
             # Print an error message if the request fails and return None
-            # logger.warning(f"Failed to retrieve HTML. Status code: {response.status_code}")
+            logger.warning(f"Failed to retrieve HTML. Status code: {response.status_code}")
             raise GetRequestUnsuccessful
 
     def remove_null_values_from_dict(self, result_dict, null=("nan", "", None)):
@@ -182,7 +182,7 @@ class HTMLScraperAgent:
             return value
 
     def scrape_to_metric(self, server_address) -> list:
-        logger.info(f"Scraping from {server_address}")
+        logger.debug(f"Scraping from {server_address}")
         try:
             scraped_data, scraped_timestamps = self.scrape_data(server_address)
         except TypeError:
