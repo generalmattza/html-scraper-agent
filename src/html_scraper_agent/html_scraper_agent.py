@@ -250,4 +250,7 @@ class HTMLScraperAgent:
         # Add to input buffer
         if metrics:
             logger.info(f"Adding {len(metrics)} metrics to queue, scraped from {server_address}")
-            self._buffer.append(metrics)
+            if isinstance(metrics, (tuple, list)):
+                self._buffer.extend(metrics)
+            else:
+                self._buffer.append(metrics)
