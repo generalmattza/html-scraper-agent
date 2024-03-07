@@ -21,7 +21,6 @@ classifiers = [
 
 dependencies = [
   "buffered @ git+https://github.com/generalmattza/buffered.git@v1.0.1",
-  "fast-database-clients @ git+https://github.com/generalmattza/fast-database-clients.git@v2.0.7",
   "beautifulsoup4",
   "requests",
 ]
